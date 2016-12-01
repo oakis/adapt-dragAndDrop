@@ -57,11 +57,11 @@ define(function(require) {
             this.listenTo(Adapt, 'device:changed', this.reRender, this);
 
             // Check if items need to be randomised
-            if (this.model.get('_isRandom') && this.model.get('_isEnabled')) {
+            if (this.model.get('_dragIsRandom') && this.model.get('_isEnabled')) {
                 this.model.set('_draggableItems', _.shuffle(this.model.get('_draggableItems')));
             }
 
-            if (!this.model.get('_isSubmitted')) {
+            if (this.model.get('_dropIsRandom') && !this.model.get('_isSubmitted')) {
                 this.model.set('_droppableItems', _.shuffle(this.model.get('_droppableItems')));
             }
         },
@@ -198,7 +198,7 @@ define(function(require) {
                 return false;
             }
 
-            this.$('.dragAndDrop-widget')
+            $('.dragAndDrop-widget')
                 .on('touchmove', _.bind(this.onTouchMoveItem, this))
                 .on('touchend', _.bind(this.onTouchEndItem, this))
                 .on('touchcancel', _.bind(this.onTouchCancelItem, this));
@@ -264,7 +264,7 @@ define(function(require) {
             this.model.unset('_lastTop');
             this.model.unset('_lastLeft');
 
-            this.$('.dragAndDrop-widget').off('touchmove touchend touchcancel');
+            $('.dragAndDrop-widget').off('touchmove touchend touchcancel');
         },
 
         onTouchCancelItem: function(event) {
@@ -272,7 +272,7 @@ define(function(require) {
             this.model.set('_currentDragedItemId', '');
             this.model.unset('_lastTop');
             this.model.unset('_lastLeft');
-            this.$('.dragAndDrop-widget').off('touchmove touchend touchcancel');
+            $('.dragAndDrop-widget').off('touchmove touchend touchcancel');
         },
 
         getDropedItemIdForCoordinate: function(top, left) {
